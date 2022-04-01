@@ -6,6 +6,8 @@ import 'package:digital_farm_app/page/scanner.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:flutter/material.dart';
 
+import 'home.dart';
+
 class CattlePage extends StatefulWidget {
   const CattlePage({Key? key}) : super(key: key);
 
@@ -45,6 +47,8 @@ class _CattlePageState extends State<CattlePage> {
                 )
               ],
             )),
+        floatingActionButton: IconButton(onPressed: (){Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => HomePage(),
+      ),ModalRoute.withName("/"));}, icon: Icon(Icons.home,size: 35.0,)),
         body: Container(
           child: load
               ? Center(

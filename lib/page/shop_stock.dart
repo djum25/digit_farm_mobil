@@ -1,122 +1,61 @@
-import 'dart:async';
 import 'dart:convert';
-import 'package:digital_farm_app/page/stock_detail.dart';
-import 'package:digital_farm_app/page/stock_product.dart';
+
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home.dart';
-
-class StockPage extends StatefulWidget {
-  const StockPage({ Key? key }) : super(key: key);
+class ShopStockPage extends StatefulWidget {
+  final int id;
+  const ShopStockPage(this.id);
 
   @override
-  _StockPageState createState() => _StockPageState();
+  State<ShopStockPage> createState() => _ShopStockPageState(this.id);
 }
 
-class _StockPageState extends State<StockPage> {
-List stocks = [];
-List products = [];
-List shops = [];
+class _ShopStockPageState extends State<ShopStockPage> {
+  int id;
+  _ShopStockPageState(this.id);
+  bool load = true;
+  List stocks = [];
 TextEditingController qte = new TextEditingController();
 TextEditingController val = new TextEditingController();
 TextEditingController advance = new TextEditingController();
 TextEditingController account = new TextEditingController();
 var _formKey = GlobalKey<FormState>();
-@override
-  void initState() {
-    getOutgoingStock();
-    getProduct();
-    super.initState();
-  }
 
   @override
+  void initState() {
+    getShop();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 2,
-      child : Scaffold(
-        backgroundColor: Colors.green[100],
-        appBar:  AppBar(
+    return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60.0), // here the desired height
+          child: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: ClipRect(child: Image.asset('images/logoFarm.gif',width: 60.0,height: 60.0,)),
-          actions: <Widget>[ IconButton(icon: const Icon(Icons.list_alt_outlined),onPressed: () {/*MyWidget().getShop(context);*/})],
-          bottom:  const TabBar(
-            isScrollable: true,
-            indicatorColor: Color(0xFF7ED957),
-            labelColor: Color(0xFF7ED957),
-            tabs: <Widget>[
-              Tab(icon: Icon(Icons.cloud_upload_outlined),text: "Produit",),
-              Tab(icon: Icon(Icons.cloud_download_outlined),text: "Matiére premiére",)]),),
-        floatingActionButton: IconButton(onPressed: (){Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => HomePage(),
-      ),ModalRoute.withName("/"));}, icon: Icon(Icons.home,size: 35.0,)),
-         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("images/stock.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: TabBarView(
-          children: <Widget>[
-            itemMerchandise(),
-            itemProduct(),]),
-        )));
+          actions: <Widget>[ IconButton(icon: const Icon(Icons.home_outlined),onPressed: () {MyWidget().getShop(context,id);})],
+        )),
+        body: Container( child: load? Center(child: Image.asset('images/loading.gif',width: 300.0,height: 300.0,),) : itemStock(),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/shop.jpg"),fit: BoxFit.cover,),),),
+    );
   }
 
-  Future<void> getOutgoingStock() async{
-    var response = await CallApi().getData("/api/v1/outgoing/produit");
-    var body = jsonDecode(utf8.decode(response.bodyBytes));
-    if(body["success"]){
-      setState(() {
-        stocks = body["stocks"];
-      });
-    }
-  }
+  
 
-  Future<void> getProduct() async{
-    var response = await CallApi().getData("/api/v1/incoming");
-    var body = jsonDecode(utf8.decode(response.bodyBytes));
-    if(body["success"]){
-      setState(() {
-        products = body["stocks"];
-      });
-    }
-  }
-
-Widget itemProduct() {
-    return GridView.builder(
-      itemCount: products.length,
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 10, vertical: 20),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 10.0,mainAxisSpacing: 10.0),
-      itemBuilder: (BuildContext context,int index){
-        return GestureDetector(
-          onTap: () { Navigator.of(context).push(MaterialPageRoute(builder: (context) => StockProduct(products[index]["product"])));},
-          child: Card(
-              elevation: 0,
-              color: Color.fromRGBO(0, 0, 0, 0.5),
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(products[index]["product"],style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                      Text(products[index]["quantity"].toString(),style: TextStyle(color: Color(0xFF7ED957), fontSize: 35, fontWeight: FontWeight.bold),),
-                    ],))),);},);}
-
-Widget itemMerchandise() {
+Widget itemStock() {
     return GridView.builder(
       itemCount: stocks.length,
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 10, vertical: 20),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 10.0,mainAxisSpacing: 10.0),
       itemBuilder: (BuildContext context,int index){
         return GestureDetector(
-          onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => StockDeatilPage(stocks[index]["actualy"].toString(),stocks[index]["product"]))),
+          onTap: () { formDialog(context, stocks[index]["product"]);},
+          onDoubleTap: () => MyWidget().getReverseShopToShop(context, stocks[index]["product"]),
           child: Card(
               elevation: 0,
               color: Color.fromRGBO(0, 0, 0, 0.5),
@@ -126,13 +65,25 @@ Widget itemMerchandise() {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(stocks[index]["product"],style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                      Text(stocks[index]["quantity"].toString(),style: TextStyle(color: Color(0xFF7ED957), fontSize: 25, fontWeight: FontWeight.bold),),
-                      Text("En Boutique",style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                      Text(stocks[index]["inShop"].toString(),style: TextStyle(color: Color(0xFF7ED957), fontSize: 25, fontWeight: FontWeight.bold),),
+                      Text(stocks[index]["product"],style: TextStyle(color: Color(0xFF7ED957), fontSize: 35, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                      SizedBox(height: 15.0,),
+                      Text("En boutique : "+ stocks[index]["inShop"].toString(),style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),),
+                      SizedBox(height: 15.0,),
+                      Text("Au depot : "+ stocks[index]["inStore"].toString(),style: TextStyle(color: Colors.white ,fontSize: 25, fontWeight: FontWeight.bold),),
                     ],))),);},);}
 
-void formDialog(context,String subject) {
+  Future<void> getShop() async{
+    var res = await CallApi().getData("/api/v1/shop/stock/"+this.id.toString());
+    var body = jsonDecode(utf8.decode(res.bodyBytes));
+    if(body['success']){
+      setState(() {
+      stocks = body['stocks'];
+      load = false;
+      });
+    }
+  }
+
+  void formDialog(context,String subject) {
    showDialog(context: context, builder: (context){
      return AlertDialog(
                   backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -192,18 +143,17 @@ void formDialog(context,String subject) {
    if(shopId == null || username == null){
      MyWidget().notification(context, "Veuillez ouvrir une caisse");
    }else{
-    var data = {"shopId":shopId, "produit":subject, "price": int.tryParse(val.text),
-      "quantity":int.tryParse(qte.text), "username":username,"advance":advance.text,"account":account.text};
+    var data = {"shopId":shopId, "product":subject, "price": val.text,
+      "quantity":qte.text, "username":username,"advance":advance.text,"account":account.text};
 
       var response = await CallApi().postData(data, "/api/v1/outgoing/sale");
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       if(body['success']){
         MyWidget().notification(context, body['message']);
-        getOutgoingStock();}
+        getShop();}
       else{
         MyWidget().notification(context, body['message']);
       }
  }
  }
-
 }

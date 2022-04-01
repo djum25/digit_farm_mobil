@@ -70,7 +70,8 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 10, vertical: 20),
       children: <Widget>[
         GestureDetector(
-          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => CattlePage()));},
+          onTap: () {Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => CattlePage(),
+      ),ModalRoute.withName("/"));},
           child: Card(
               elevation: 0,
               color: Colors.white, //green[100],
@@ -92,7 +93,8 @@ class _HomePageState extends State<HomePage> {
                   ))),
         ),
         GestureDetector(
-          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => PoultryPage()));},
+          onTap: () {Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => PoultryPage(),
+      ),ModalRoute.withName("/"));},
           child: Card(
               elevation: 0,
               color: Colors.white, //green[100],
@@ -114,7 +116,8 @@ class _HomePageState extends State<HomePage> {
                   ))),
         ),
         GestureDetector(
-          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => FishPage()));},
+          onTap: () {Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => FishPage(),
+      ),ModalRoute.withName("/"));},
           child: Card(
               elevation: 0,
               color: Colors.white, //green[100],
@@ -136,7 +139,8 @@ class _HomePageState extends State<HomePage> {
                   ))),
         ),
         GestureDetector(
-          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => TreePage()));},
+          onTap: () {Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => TreePage(),
+      ),ModalRoute.withName("/"));},
           child: Card(
               elevation: 0,
               color: Colors.white, //green[100],
@@ -158,7 +162,8 @@ class _HomePageState extends State<HomePage> {
                   ))),
         ),
         GestureDetector(
-          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => FarmingPage()));},
+          onTap: () {Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => FarmingPage(),
+      ),ModalRoute.withName("/"));},
           child: Card(
               elevation: 0,
               color: Colors.white, //green[100],
@@ -180,7 +185,8 @@ class _HomePageState extends State<HomePage> {
                   ))),
         ),
         GestureDetector(
-          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => StockPage()));},
+          onTap: () {Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => StockPage(),
+      ),ModalRoute.withName("/"));},
           child: Card(
               elevation: 0,
               color: Colors.white, //green[100],
@@ -202,7 +208,8 @@ class _HomePageState extends State<HomePage> {
                   ))),
         ),
         GestureDetector(
-          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShopPage()));},
+          onTap: () {Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => ShopPage(),
+      ),ModalRoute.withName("/"));},
           child: Card(
               elevation: 0,
               color: Colors.white, //green[100],

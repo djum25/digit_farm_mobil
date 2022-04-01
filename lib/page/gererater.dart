@@ -101,14 +101,19 @@ class _GenerateCodePageState extends State<GenerateCodePage> {
 
   void goBack(){
     if(page=='cattle')
-     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CattlePage()));
+      Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => CattlePage(),
+      ),ModalRoute.withName("/"));
      if(page=='poultry')
-     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PoultryPage()));
+      Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => PoultryPage(),
+      ),ModalRoute.withName("/"));
      if(page=='fish')
-     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => FishPage()));
+      Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => FishPage(),
+      ),ModalRoute.withName("/"));
      if(page=='speculation')
-     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => FarmingPage()));
+      Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => FarmingPage(),
+      ),ModalRoute.withName("/"));
      if(page=='tree')
-     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => TreePage()));
+      Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => TreePage(),
+      ),ModalRoute.withName("/"));
   }
 }

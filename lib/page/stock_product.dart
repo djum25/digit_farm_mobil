@@ -2,25 +2,23 @@ import 'dart:convert';
 
 import 'package:digital_farm_app/page/stock.dart';
 import 'package:digital_farm_app/utils/service.dart';
-import 'package:digital_farm_app/widget/snack_widget.dart';
+import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 class StockProduct extends StatefulWidget {
-  final int productId;
   final String productName;
-  const StockProduct(this.productId,this.productName);
+  const StockProduct(this.productName);
 
   @override
-  _StockProductState createState() => _StockProductState(this.productId,this.productName);
+  _StockProductState createState() => _StockProductState(this.productName);
 }
 
 class _StockProductState extends State<StockProduct> {
-  int productId;
   String productName;
-  _StockProductState(this.productId,this.productName);
+  _StockProductState(this.productName);
   var _formKey = GlobalKey<FormState>();
   String type = "in";
   TextEditingController _controllerQty = new TextEditingController();
@@ -203,12 +201,8 @@ class _StockProductState extends State<StockProduct> {
       'createdOn': createdOn,
       'updatedOn': createdOn,
       'date': formattedDate,
-      'product': {
-        'id': productId,
-        'productName': productName,
-        'createdOn': createdOn,
-        'updatedOn': createdOn
-      }
+      'product': productName,
+      'user': null
     };
   
   var response = await CallApi().postData(data, "/api/v1/incoming");

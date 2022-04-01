@@ -4,6 +4,7 @@ import 'package:digital_farm_app/page/fish_register.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:flutter/material.dart';
 
+import 'home.dart';
 import 'scanner.dart';
 
 class FishPage extends StatefulWidget {
@@ -35,6 +36,8 @@ class _FishPageState extends State<FishPage> {
           title: ClipRect(child: Image.asset('images/logoFarm.gif',width: 60.0,height: 60.0,)),
           actions: <Widget>[ IconButton(icon: const Icon(Icons.set_meal_outlined),onPressed: () {})],
         )),
+        floatingActionButton: IconButton(onPressed: (){Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => HomePage(),
+      ),ModalRoute.withName("/"));}, icon: Icon(Icons.home,size: 35.0,)),
       body: Container( child: load? Center(child: Image.asset('images/loading.gif',width: 300.0,height: 300.0,),) : menu(),
         decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/fish.jpg"),fit: BoxFit.cover,),),)
     );

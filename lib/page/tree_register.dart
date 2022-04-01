@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:digital_farm_app/utils/category.dart';
 import 'package:digital_farm_app/utils/planting.dart';
 import 'package:digital_farm_app/utils/service.dart';
-import 'package:digital_farm_app/widget/snack_widget.dart';
+import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';

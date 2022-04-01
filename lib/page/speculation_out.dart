@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/utils/speculation.dart';
-import 'package:digital_farm_app/widget/snack_widget.dart';
+import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -198,7 +198,8 @@ class _SpeculationOutPageState extends State<SpeculationOutPage> {
 
       MyWidget().notification(context, body['message']);
       if(body['success']){
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => FarmingPage()));
+      Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => FarmingPage(),
+      ),ModalRoute.withName("/"));
       }
   }
 }

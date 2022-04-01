@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:digital_farm_app/utils/poultry.dart';
 import 'package:digital_farm_app/utils/service.dart';
-import 'package:digital_farm_app/widget/snack_widget.dart';
+import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'poultry_detail.dart';
