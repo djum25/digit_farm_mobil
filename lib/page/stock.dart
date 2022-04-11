@@ -49,8 +49,8 @@ var _formKey = GlobalKey<FormState>();
             indicatorColor: Color(0xFF7ED957),
             labelColor: Color(0xFF7ED957),
             tabs: <Widget>[
-              Tab(icon: Icon(Icons.cloud_upload_outlined),text: "Produit",),
-              Tab(icon: Icon(Icons.cloud_download_outlined),text: "Matiére premiére",)]),),
+              Tab(icon: Icon(Icons.cloud_upload_outlined),text: "Stock Produit",),
+              Tab(icon: Icon(Icons.cloud_download_outlined),text: "Stock Matiére",)]),),
         floatingActionButton: IconButton(onPressed: (){Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => HomePage(),
       ),ModalRoute.withName("/"));}, icon: Icon(Icons.home,size: 35.0,)),
          body: Container(

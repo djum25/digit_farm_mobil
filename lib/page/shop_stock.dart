@@ -18,11 +18,6 @@ class _ShopStockPageState extends State<ShopStockPage> {
   _ShopStockPageState(this.id);
   bool load = true;
   List stocks = [];
-TextEditingController qte = new TextEditingController();
-TextEditingController val = new TextEditingController();
-TextEditingController advance = new TextEditingController();
-TextEditingController account = new TextEditingController();
-var _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -45,8 +40,6 @@ var _formKey = GlobalKey<FormState>();
     );
   }
 
-  
-
 Widget itemStock() {
     return GridView.builder(
       itemCount: stocks.length,
@@ -54,8 +47,12 @@ Widget itemStock() {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 10.0,mainAxisSpacing: 10.0),
       itemBuilder: (BuildContext context,int index){
         return GestureDetector(
-          onTap: () { formDialog(context, stocks[index]["product"]);},
-          onDoubleTap: () => MyWidget().getReverseShopToShop(context, stocks[index]["product"]),
+          onTap: () {
+            showDialog(
+            context: context,
+            builder: (_) {
+              return SaleWidget(stocks[index]["product"]);
+            },barrierDismissible: false);},
           child: Card(
               elevation: 0,
               color: Color.fromRGBO(0, 0, 0, 0.5),
@@ -82,14 +79,31 @@ Widget itemStock() {
       });
     }
   }
+}
 
-  void formDialog(context,String subject) {
-   showDialog(context: context, builder: (context){
-     return AlertDialog(
+class SaleWidget extends StatefulWidget {
+  final String subject;
+  const SaleWidget(this.subject);
+
+  @override
+  State<SaleWidget> createState() => _SaleWidgetState(this.subject);
+}
+
+class _SaleWidgetState extends State<SaleWidget> {
+  String subject;
+  _SaleWidgetState(this.subject);
+  TextEditingController qte = new TextEditingController();
+  TextEditingController val = new TextEditingController();
+  TextEditingController advance = new TextEditingController();
+  TextEditingController account = new TextEditingController();
+  var _key = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
                   backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                   title: Text("Vendre "+subject,style: TextStyle(fontSize: 35.0,fontWeight: FontWeight.bold,)),
                   content: Form(
-                    key: _formKey,
+                    key: _key,
                     child: SingleChildScrollView(
                         padding: EdgeInsets.all(35.0),
                         child: Column(
@@ -114,28 +128,38 @@ Widget itemStock() {
                                 child: TextFormField(
                                   keyboardType:TextInputType.number,controller:this.advance,
                                   decoration: InputDecoration(border:OutlineInputBorder(),
-                                   icon: Icon(Icons.hourglass_bottom_outlined), labelText:"La valeur l'avance "),
+                                   icon: Icon(Icons.hourglass_bottom_outlined), labelText:"Montant recu "),
+                                   onChanged: (String value) async{
+                                     dynamicResult(value);},
                                   validator: (value) { if (value!.isEmpty) { return "La valeur de l'avance est obligatoire sinon mettez 0"; } else return null;},),),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20.0),
                                 child: TextFormField(
-                                  keyboardType:TextInputType.number,controller:this.account,
+                                  keyboardType:TextInputType.number,controller:this.account,enabled: false,
                                   decoration: InputDecoration(border:OutlineInputBorder(),
-                                   icon: Icon(Icons.hourglass_bottom_outlined), labelText:"La valeur restante "),
-                                  validator: (value) { if (value!.isEmpty) { return "La valeur restante est obligatoire sinon mettez 0"; } else return null;},),),
+                                   icon: Icon(Icons.hourglass_bottom_outlined), labelText:"Montant restante"),
+                                )),
                             ]))),
                   actions: [
                     IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.thumb_down),iconSize: 100,color: Colors.red),
                     SizedBox(width: 100,),
-                    IconButton(onPressed: ()  {if (_formKey.currentState!.validate())
+                    IconButton(onPressed: ()  {if (_key.currentState!.validate())
                                        _onSave(subject, context);}, icon: Icon(Icons.save_alt_outlined),iconSize: 100,color: Colors.green),
                   ]
      );
-   },barrierDismissible: false);
+  }
 
+ void dynamicResult(String value){
+   var total = int.tryParse(val.text);
+    var receiveValue = int.tryParse(value);
+    if (total!=null && receiveValue!=null) {
+      setState(() {
+        account.text = (total - receiveValue).toString();
+      });
+    }
  }
 
- Future<void> _onSave(String subject,context) async{
+   Future<void> _onSave(String subject,context) async{
    Navigator.pop(context);
    SharedPreferences localStorage = await SharedPreferences.getInstance();
    String? username = localStorage.getString("username");
@@ -150,7 +174,7 @@ Widget itemStock() {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       if(body['success']){
         MyWidget().notification(context, body['message']);
-        getShop();}
+        }
       else{
         MyWidget().notification(context, body['message']);
       }
