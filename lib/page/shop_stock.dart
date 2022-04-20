@@ -1,5 +1,8 @@
+// This page is for display stock in shop having the given ID 
+// Is used for sale product, just tape in the product item and receve a for modal
+// And click in top-left to redirect in in sale news page
 import 'dart:convert';
-
+import 'package:digital_farm_app/page/sale_news.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +20,7 @@ class _ShopStockPageState extends State<ShopStockPage> {
   int id;
   _ShopStockPageState(this.id);
   bool load = true;
-  List stocks = [];
+  List stocks = []; 
 
   @override
   void initState() {
@@ -33,7 +36,10 @@ class _ShopStockPageState extends State<ShopStockPage> {
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: ClipRect(child: Image.asset('images/logoFarm.gif',width: 60.0,height: 60.0,)),
-          actions: <Widget>[ IconButton(icon: const Icon(Icons.home_outlined),onPressed: () {MyWidget().getShop(context,id);})],
+          actions: <Widget>[ IconButton(icon: const Icon(Icons.home_outlined),onPressed: () {MyWidget().getShop(context,id);}),
+          IconButton(icon: const Icon(Icons.shop_2_outlined),onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) { return SaleNewsPage(id); }));
+          })]
         )),
         body: Container( child: load? Center(child: Image.asset('images/loading.gif',width: 300.0,height: 300.0,),) : itemStock(),
         decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/shop.jpg"),fit: BoxFit.cover,),),),
