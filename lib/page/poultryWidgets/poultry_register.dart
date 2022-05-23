@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:digital_farm_app/utils/planting.dart';
-import 'package:digital_farm_app/utils/seed.dart';
+import 'package:digital_farm_app/utils/category.dart';
+import 'package:digital_farm_app/utils/coop.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,27 +8,30 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'gererater.dart';
+import '../utilWidgets/gererater.dart';
+import '../utilWidgets/gererater.dart';
 
-class SpeculationRegisterPage extends StatefulWidget {
-  const SpeculationRegisterPage({ Key? key }) : super(key: key);
+class PoultryRegisterPage extends StatefulWidget {
+  const PoultryRegisterPage({ Key? key }) : super(key: key);
 
   @override
-  _SpeculationRegisterPageState createState() => _SpeculationRegisterPageState();
+  _PoultryRegisterPageState createState() => _PoultryRegisterPageState();
 }
 
-class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
+class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
   var _formKey = GlobalKey<FormState>();
   DateTime _dateTime = DateTime.now();
   late String formattedDate;
-  TextEditingController controllerSeed = new TextEditingController();
-  TextEditingController controllerPlanting = new TextEditingController();
-  List<Seed> seeds = [];
-  late Seed selectedSeed;
+  TextEditingController controllerCategory = new TextEditingController();
+  TextEditingController controllerCoop = new TextEditingController();
+  TextEditingController controllerQuantity = new TextEditingController();
+  TextEditingController controllerDevelopment = new TextEditingController();
+  List<Category> categorys = [];
+  late Category selectedCategory;
   bool loadCategory = true;
-  List<Planting> plantings = [];
-  late Planting selectedPlanting ;
-  bool loadPlanting = true;
+  List<Coop> coops = [];
+  late Coop selectedCoop ;
+  bool loadCoop = true;
 
   @override
   void initState() {
@@ -36,7 +39,7 @@ class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
     var formatter = new DateFormat.yMMMMEEEEd('fr');
     formattedDate = formatter.format(_dateTime);
     getCategory();
-    getPlanting();
+    getCoop();
     super.initState();
   }
   
@@ -49,10 +52,10 @@ class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: ClipRect(child: Image.asset('images/logoFarm.gif',width: 60.0,height: 60.0,)),
-          actions: <Widget>[ IconButton(icon: const Icon(Icons.local_florist_outlined),onPressed: () {})],
+          actions: <Widget>[ IconButton(icon: const Icon(Icons.flutter_dash_outlined),onPressed: () {})],
         )),
       body: Container( child: formular(),
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/speculation.jpg"),fit: BoxFit.cover,),),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/poultry.png"),fit: BoxFit.cover,),),
         padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),)
     );
   }
@@ -84,75 +87,22 @@ class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
                                                 keyboardType:
                                                     TextInputType.text,
                                                 controller:
-                                                    this.controllerSeed,
+                                                    this.controllerCategory,
                                                 decoration: InputDecoration(
                                                     border:
                                                         OutlineInputBorder(),
                                                     icon: Icon(Icons
-                                                        .set_meal_outlined),
+                                                        .flutter_dash_outlined),
                                                     labelText:
                                                         'Choisir le type')),
                                         suggestionsCallback: (pattern) {
-                                          return seeds
-                                              .where((element) => element
-                                                  .seedName.toLowerCase()
-                                                  .startsWith(pattern.toLowerCase()))
-                                              .toList();
-                                        },
-                                        itemBuilder: (context,Seed suggestion) {
-                                          return ListTile(
-                                            title: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Text(suggestion.seedName),
-                                                ]),
-                                          );
-                                        },
-                                        transitionBuilder: (context,
-                                            suggestionsBox, controller) {
-                                          return suggestionsBox;
-                                        },
-                                        onSuggestionSelected: (Seed suggestion) {
-                                          this.selectedSeed = suggestion;
-                                          controllerSeed.text = suggestion.seedName;
-                                        },
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Le type est obligatoire';
-                                          } else
-                                            return null;
-                                        },
-                                        //onSaved: (Category value) => this.selectedSeed= value,
-                                      ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 20.0),
-                                child: loadPlanting
-                                    ? Center(child: CircularProgressIndicator())
-                                    : TypeAheadFormField(
-                                        textFieldConfiguration:
-                                            TextFieldConfiguration(
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                controller:
-                                                    this.controllerPlanting,
-                                                decoration: InputDecoration(
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                    icon: Icon(Icons
-                                                        .home_outlined),
-                                                    labelText:
-                                                        "Choisir la Plantation ")),
-                                        suggestionsCallback: (pattern) {
-                                          return plantings
+                                          return categorys
                                               .where((element) => element
                                                   .name.toLowerCase()
                                                   .startsWith(pattern.toLowerCase()))
                                               .toList();
                                         },
-                                        itemBuilder: (context,Planting suggestion) {
+                                        itemBuilder: (context,Category suggestion) {
                                           return ListTile(
                                             title: Row(
                                                 mainAxisAlignment:
@@ -167,17 +117,113 @@ class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
                                             suggestionsBox, controller) {
                                           return suggestionsBox;
                                         },
-                                        onSuggestionSelected: (Planting suggestion) {
-                                          this.selectedPlanting= suggestion;
-                                          controllerPlanting.text = suggestion.name;
+                                        onSuggestionSelected: (Category suggestion) {
+                                          this.selectedCategory = suggestion;
+                                          controllerCategory.text = suggestion.name;
                                         },
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return "La plantation est obligatoire";
+                                            return 'Le type est obligatoire';
                                           } else
                                             return null;
                                         },
+                                        //onSaved: (Category value) => this.selectedCategory= value,
                                       ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 20.0),
+                                child: loadCoop
+                                    ? Center(child: CircularProgressIndicator())
+                                    : TypeAheadFormField(
+                                        textFieldConfiguration:
+                                            TextFieldConfiguration(
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                controller:
+                                                    this.controllerCoop,
+                                                decoration: InputDecoration(
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                    icon: Icon(Icons
+                                                        .home_outlined),
+                                                    labelText:
+                                                        "Choisir le poulailler ")),
+                                        suggestionsCallback: (pattern) {
+                                          return coops
+                                              .where((element) => element
+                                                  .name.toLowerCase()
+                                                  .startsWith(pattern.toLowerCase()))
+                                              .toList();
+                                        },
+                                        itemBuilder: (context,Coop suggestion) {
+                                          return ListTile(
+                                            title: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(suggestion.name),
+                                                ]),
+                                          );
+                                        },
+                                        transitionBuilder: (context,
+                                            suggestionsBox, controller) {
+                                          return suggestionsBox;
+                                        },
+                                        onSuggestionSelected: (Coop suggestion) {
+                                          this.selectedCoop = suggestion;
+                                          controllerCoop.text = suggestion.name;
+                                        },
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return "Le poulailler est obligatoire";
+                                          } else
+                                            return null;
+                                        },
+                                        //onSaved: (Category value) => this.selectedCategory= value,
+                                      ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 20.0),
+                                child: TextFormField(
+                                  keyboardType:
+                                                    TextInputType.number,
+                                                controller:
+                                                    this.controllerQuantity,
+                                                decoration: InputDecoration(
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                    icon: Icon(Icons
+                                                        .hourglass_bottom_outlined),
+                                                    labelText:
+                                                        "La quantite de la bande "),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return "La quantite est obligatoire ";
+                                          } else
+                                            return null;
+                                        },),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 20.0),
+                                child: TextFormField(
+                                  keyboardType:
+                                                    TextInputType.number,
+                                                controller:
+                                                    this.controllerDevelopment,
+                                                decoration: InputDecoration(
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                    icon: Icon(Icons
+                                                        .time_to_leave_outlined),
+                                                    labelText:
+                                                        "Duree de croissance "),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return "La duree est obligatoire ";
+                                          } else
+                                            return null;
+                                        },),
                               ),
                         Padding(padding: const EdgeInsets.symmetric(vertical:20.0),
                         child: Center(child:TextButton( child: Text(formattedDate,style: TextStyle(fontSize: 20.0,color: Colors.black),),
@@ -244,11 +290,11 @@ class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
   }
 
   Future<void> getCategory() async{
-      var response = await CallApi().getData("/api/v1/seed");
+      var response = await CallApi().getData("/api/v1/poultryCategory");
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       if(body['success']){
-        for (var item in body['seeds']) {
-          seeds.add(Seed.fromJson(item));
+        for (var item in body['categorys']) {
+          categorys.add(Category.fromJson(item));
         }
       }
       setState(() {
@@ -256,16 +302,16 @@ class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
       });
   }
 
-  Future<void> getPlanting() async{
-    var response = await CallApi().getData("/api/v1/planting");
+  Future<void> getCoop() async{
+    var response = await CallApi().getData("/api/v1/chickenCoop");
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       if(body['success']){
-        for (var item in body['plantings']) {
-          plantings.add(Planting.fromJson(item));
+        for (var item in body['chickenCoops']) {
+          coops.add(Coop.fromJson(item));
         }
       }
       setState(() {
-        loadPlanting= false;
+        loadCoop = false;
       });
   }
 
@@ -277,18 +323,20 @@ class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
       var data =Map<String, dynamic>();
       data['id'] = null;
       data['name'] = null;
-      data['seedDate'] = formattedDate;
+      data['developmentTime'] = int.tryParse(controllerDevelopment.text);
+      data['dateOfEntry'] = formattedDate;
+      data['quantity'] = int.tryParse(controllerQuantity.text);
       data['present'] = true;
       data['createdOn'] = createdOn;
       data['updatedOn'] = createdOn;
-      data['planting'] = selectedPlanting.toMap();
-      data['seed'] = selectedSeed.toMap();
+      data['chickenCoop'] = selectedCoop.toMap();
+      data['category'] = selectedCategory.toMap();
 
-      var response = await CallApi().postData(data, "/api/v1/speculation");
+      var response = await CallApi().postData(data, "/api/v1/poultry");
       var body = jsonDecode(utf8.decode(response.bodyBytes));
     if(body['success']){
-      MyWidget().notification(context,"Enregistement réussit");
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GenerateCodePage(body['speculation']['name'],'speculation')));
+      MyWidget().notification(context, "Enregistement reussit");
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GenerateCodePage(body['poultry']['name'],'poultry')));
     }else{
       MyWidget().notification(context,"Echec de l'enregistement");
     }

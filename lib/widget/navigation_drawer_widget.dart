@@ -1,10 +1,9 @@
-import 'package:digital_farm_app/page/cattle.dart';
-import 'package:digital_farm_app/page/farming.dart';
-import 'package:digital_farm_app/page/fish.dart';
-import 'package:digital_farm_app/page/login.dart';
-import 'package:digital_farm_app/page/poultry.dart';
-import 'package:digital_farm_app/page/tree.dart';
-import 'package:digital_farm_app/page/user_page.dart';
+import 'package:digital_farm_app/page/cattleWidgets/cattle.dart';
+import 'package:digital_farm_app/page/speculationWidgets/farming.dart';
+import 'package:digital_farm_app/page/fishWidgets/fish.dart';
+import 'package:digital_farm_app/page/utilWidgets/login.dart';
+import 'package:digital_farm_app/page/poultryWidgets/poultry.dart';
+import 'package:digital_farm_app/page/treeWidgets/tree.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,12 +47,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               urlImage: urlImage,
               name: user,
               email: email,
-              onClicked: () => Navigator.of(context).push(MaterialPageRoute(
+              onClicked: () {}
+              /* => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => UserPage(
                   name: 'Sarah Abs',
                   urlImage: urlImage,
                 ),
-              )),
+              )), */
             ),
             Container(
               padding: padding,

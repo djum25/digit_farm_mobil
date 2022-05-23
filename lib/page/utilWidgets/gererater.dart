@@ -1,15 +1,15 @@
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:digital_farm_app/page/farming.dart';
-import 'package:digital_farm_app/page/fish.dart';
-import 'package:digital_farm_app/page/poultry.dart';
-import 'package:digital_farm_app/page/tree.dart';
+import 'package:digital_farm_app/page/speculationWidgets/farming.dart';
+import 'package:digital_farm_app/page/fishWidgets/fish.dart';
+import 'package:digital_farm_app/page/poultryWidgets/poultry.dart';
+import 'package:digital_farm_app/page/treeWidgets/tree.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'cattle.dart';
+import '../cattleWidgets/cattle.dart';
 
 class GenerateCodePage extends StatefulWidget {
   final String data;

@@ -1,20 +1,21 @@
 import 'dart:convert';
-import 'package:digital_farm_app/page/fish_list.dart';
-import 'package:digital_farm_app/page/fish_register.dart';
+
+import 'package:digital_farm_app/page/speculationWidgets/speculation_list.dart';
+import 'package:digital_farm_app/page/speculationWidgets/speculation_register.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
-import 'scanner.dart';
+import '../utilWidgets/home.dart';
+import '../utilWidgets/scanner.dart';
 
-class FishPage extends StatefulWidget {
-  const FishPage({ Key? key }) : super(key: key);
+class FarmingPage extends StatefulWidget {
+  const FarmingPage({ Key? key }) : super(key: key);
 
   @override
-  _FishPageState createState() => _FishPageState();
+  _FarmingPageState createState() => _FarmingPageState();
 }
 
-class _FishPageState extends State<FishPage> {
+class _FarmingPageState extends State<FarmingPage> {
   bool load = true;
   int present = 0;
   int missing = 0;
@@ -39,8 +40,12 @@ class _FishPageState extends State<FishPage> {
         floatingActionButton: IconButton(onPressed: (){Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => HomePage(),
       ),ModalRoute.withName("/"));}, icon: Icon(Icons.home,size: 35.0,)),
       body: Container( child: load? Center(child: Image.asset('images/loading.gif',width: 300.0,height: 300.0,),) : menu(),
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/fish.jpg"),fit: BoxFit.cover,),),)
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/speculation.jpg"),fit: BoxFit.cover,),),)
     );
+  }
+
+  Widget loading(){
+    return load ?  Center(child: Image.asset('images/loading.gif',width: 60.0,height: 60.0,),) : menu();
   }
 
     Widget menu(){
@@ -62,7 +67,7 @@ class _FishPageState extends State<FishPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [ 
             IconButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FishListPage(true)));}, 
+          builder: (context) => SpeculationListPage(true)));}, 
             icon: Icon(Icons.login_outlined,),iconSize:100,),
             SizedBox(height: 10,),
             Text("Actuellement présent",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
@@ -76,10 +81,10 @@ class _FishPageState extends State<FishPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
             IconButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FishListPage(false)));}, 
+          builder: (context) => SpeculationListPage(false)));}, 
             icon: Icon(Icons.launch_outlined,),iconSize:100,),
             SizedBox(height: 10,),
-            Text("Ont quitté",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
+            Text("Sont recolté",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
             SizedBox(height: 10,),
             Text(missing.toString(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),)],
           ),
@@ -103,10 +108,10 @@ class _FishPageState extends State<FishPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
             IconButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => QRScanPage("fish","Pisciculture","images/fish.jpg")));}, 
+          builder: (context) => QRScanPage("speculation","Hortoculture","images/speculation.jpg")));}, 
             icon: Icon(Icons.visibility_outlined,),iconSize:100,),
             SizedBox(height: 10,),
-            Text("Gestion d'une bande",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),]
+            Text("Gestion d'une semence",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),]
           ),
         ),),
         Expanded(child: 
@@ -114,10 +119,10 @@ class _FishPageState extends State<FishPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            IconButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => FishRegisterPage()));}, icon: Icon(Icons.loupe_outlined,),iconSize:100,),
+            IconButton(onPressed: (){Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => SpeculationRegisterPage()));}, icon: Icon(Icons.loupe_outlined,),iconSize:100,),
             SizedBox(height: 10,),
-            Text("Enregistrer une bande",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),]
+            Text("Enregistrer une semence",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),]
           ),
         ),)
           ])
@@ -126,12 +131,11 @@ class _FishPageState extends State<FishPage> {
       SizedBox(height: 10,),]
     );
   }
-
+  
   Future<void> getData() async {
 
-    var response = await CallApi().getData("/api/v1/fish/count");
+    var response = await CallApi().getData("/api/v1/speculation/count");
     var body = json.decode(response.body);
-    print(body);
     if(body['success']){
       setState(() {
         present = body['present'];

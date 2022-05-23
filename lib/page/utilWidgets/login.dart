@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:digital_farm_app/page/home.dart';
+import 'package:digital_farm_app/page/utilWidgets/home.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

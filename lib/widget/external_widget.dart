@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:digital_farm_app/page/shop.dart';
-import 'package:digital_farm_app/page/shop_stock.dart';
+import 'package:digital_farm_app/page/shopWidgets/shop.dart';
+import 'package:digital_farm_app/page/shopWidgets/shop_stock.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/utils/shop.dart';
 import 'package:flutter/material.dart';
@@ -39,18 +39,19 @@ bool load = true;
     Shop selectedShop = shop;
     showDialog(context: context, builder: (context){
         return AlertDialog(
+                  actionsAlignment: MainAxisAlignment.spaceBetween,
                   backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                  title: Text("Ouvrir/Fermer une Caisse",style: TextStyle(fontSize: 35.0,fontWeight: FontWeight.bold,)),
+                  title: Text("Ouvrir/Fermer une Caisse",style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,)),
                   content: Form(
                     key: _formKey,
                     child: SingleChildScrollView(
-                        padding: EdgeInsets.all(35.0),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 30.0),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                                   Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10.0),
-                                child: Text(selectedShop.name,style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold,color:Colors.green),)
+                                child: Text(selectedShop.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.green),)
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -67,11 +68,10 @@ bool load = true;
                                     icon: Icon(Icons.keyboard_alt_outlined ), labelText:"Veuillez saisir votre code pin"),
                                   validator: (value) {if (value!.isEmpty) {return "Le code PIN est obligatoire ";}else return null; },),),]))),
                   actions: [
-                    IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.thumb_down),iconSize: 100,color: Colors.red),
-                    SizedBox(width: 100,),
+                    IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.thumb_down),iconSize: 75,color: Colors.red),
                     IconButton(onPressed: ()  {
                       if (_formKey.currentState!.validate())
-                      _openOrClose(context,accessController.text,selectedShop,cashController.text);}, icon: Icon(Icons.save_alt_outlined),iconSize: 100,color: Colors.green),
+                      _openOrClose(context,accessController.text,selectedShop,cashController.text);}, icon: Icon(Icons.save_alt_outlined),iconSize: 75,color: Colors.green),
                   ]
      );
    },barrierDismissible: false);
@@ -97,6 +97,7 @@ bool load = true;
      notifationAlert(context, body['message'],Colors.green);
       localStorage.setString("shopId", shop.id.toString());
       localStorage.setString("shopName", shop.name);
+      localStorage.setString("cash", cash);
       Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => ShopStockPage(shop.id.toInt()),
       ),ModalRoute.withName("/"));
      }else{

@@ -2,7 +2,7 @@
 // Is used for sale product, just tape in the product item and receve a for modal
 // And click in top-left to redirect in in sale news page
 import 'dart:convert';
-import 'package:digital_farm_app/page/sale_news.dart';
+import 'package:digital_farm_app/page/shopWidgets/sale_news.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
@@ -66,13 +66,11 @@ Widget itemStock() {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(stocks[index]["product"],style: TextStyle(color: Color(0xFF7ED957), fontSize: 35, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                      SizedBox(height: 15.0,),
-                      Text("En boutique : "+ stocks[index]["inShop"].toString(),style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),),
-                      SizedBox(height: 15.0,),
-                      Text("Au depot : "+ stocks[index]["inStore"].toString(),style: TextStyle(color: Colors.white ,fontSize: 25, fontWeight: FontWeight.bold),),
+                      Text(stocks[index]["product"],style: TextStyle(color: Color(0xFF7ED957), fontSize: 22, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                      Text("En boutique : "+ stocks[index]["inShop"].toString(),style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),),
+                      Text("Au depot : "+ stocks[index]["inStore"].toString(),style: TextStyle(color: Colors.white ,fontSize: 18, fontWeight: FontWeight.bold),),
                     ],))),);},);}
 
   Future<void> getShop() async{
@@ -107,11 +105,12 @@ class _SaleWidgetState extends State<SaleWidget> {
   Widget build(BuildContext context) {
     return AlertDialog(
                   backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                  actionsAlignment: MainAxisAlignment.spaceBetween,
                   title: Text("Vendre "+subject,style: TextStyle(fontSize: 35.0,fontWeight: FontWeight.bold,)),
                   content: Form(
                     key: _key,
                     child: SingleChildScrollView(
-                        padding: EdgeInsets.all(35.0),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0,vertical: 20.0),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
@@ -147,10 +146,9 @@ class _SaleWidgetState extends State<SaleWidget> {
                                 )),
                             ]))),
                   actions: [
-                    IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.thumb_down),iconSize: 100,color: Colors.red),
-                    SizedBox(width: 100,),
+                    IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.thumb_down),iconSize: 75,color: Colors.red),
                     IconButton(onPressed: ()  {if (_key.currentState!.validate())
-                                       _onSave(subject, context);}, icon: Icon(Icons.save_alt_outlined),iconSize: 100,color: Colors.green),
+                                       _onSave(subject, context);}, icon: Icon(Icons.save_alt_outlined),iconSize: 75,color: Colors.green),
                   ]
      );
   }

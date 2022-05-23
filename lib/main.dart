@@ -1,4 +1,4 @@
-import 'package:digital_farm_app/page/splash.dart';
+import 'package:digital_farm_app/page/utilWidgets/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

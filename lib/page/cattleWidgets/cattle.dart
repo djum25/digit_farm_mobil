@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:digital_farm_app/page/cattle_List.dart';
-import 'package:digital_farm_app/page/cattle_register.dart';
-import 'package:digital_farm_app/page/scanner.dart';
+import 'package:digital_farm_app/page/cattleWidgets/cattle_List.dart';
+import 'package:digital_farm_app/page/cattleWidgets/cattle_register.dart';
+import 'package:digital_farm_app/page/utilWidgets/scanner.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import '../utilWidgets/home.dart';
 
 class CattlePage extends StatefulWidget {
   const CattlePage({Key? key}) : super(key: key);

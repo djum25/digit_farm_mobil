@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:digital_farm_app/page/stock_detail.dart';
-import 'package:digital_farm_app/page/stock_product.dart';
+import 'package:digital_farm_app/page/stockWidgets/stock_detail.dart';
+import 'package:digital_farm_app/page/stockWidgets/stock_product.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home.dart';
+import '../utilWidgets/home.dart';
 
 class StockPage extends StatefulWidget {
   const StockPage({ Key? key }) : super(key: key);

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:digital_farm_app/page/tree_list.dart';
+import 'package:digital_farm_app/page/treeWidgets/tree_list.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
-import 'scanner.dart';
+import '../utilWidgets/home.dart';
+import '../utilWidgets/home.dart';
+import '../utilWidgets/scanner.dart';
 import 'tree_register.dart';
 
 class TreePage extends StatefulWidget {

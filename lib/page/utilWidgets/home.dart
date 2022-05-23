@@ -1,13 +1,13 @@
-import 'package:digital_farm_app/page/shop.dart';
-import 'package:digital_farm_app/page/stock.dart';
+import 'package:digital_farm_app/page/shopWidgets/shop.dart';
+import 'package:digital_farm_app/page/stockWidgets/stock.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'cattle.dart';
-import 'farming.dart';
-import 'fish.dart';
+import '../cattleWidgets/cattle.dart';
+import '../speculationWidgets/farming.dart';
+import '../fishWidgets/fish.dart';
 import 'login.dart';
-import 'poultry.dart';
-import 'tree.dart';
+import '../poultryWidgets/poultry.dart';
+import '../treeWidgets/tree.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

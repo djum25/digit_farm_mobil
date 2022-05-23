@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:digital_farm_app/utils/category.dart';
-import 'package:digital_farm_app/utils/coop.dart';
+import 'package:digital_farm_app/utils/bowl.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/widget/external_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,28 +8,27 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'gererater.dart';
+import '../utilWidgets/gererater.dart';
 
-class PoultryRegisterPage extends StatefulWidget {
-  const PoultryRegisterPage({ Key? key }) : super(key: key);
+class FishRegisterPage extends StatefulWidget {
+  const FishRegisterPage({ Key? key }) : super(key: key);
 
   @override
-  _PoultryRegisterPageState createState() => _PoultryRegisterPageState();
+  _FishRegisterPageState createState() => _FishRegisterPageState();
 }
 
-class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
+class _FishRegisterPageState extends State<FishRegisterPage> {
   var _formKey = GlobalKey<FormState>();
   DateTime _dateTime = DateTime.now();
   late String formattedDate;
   TextEditingController controllerCategory = new TextEditingController();
-  TextEditingController controllerCoop = new TextEditingController();
+  TextEditingController controllerBowl = new TextEditingController();
   TextEditingController controllerQuantity = new TextEditingController();
-  TextEditingController controllerDevelopment = new TextEditingController();
   List<Category> categorys = [];
   late Category selectedCategory;
   bool loadCategory = true;
-  List<Coop> coops = [];
-  late Coop selectedCoop ;
+  List<Bowl> bowls = [];
+  late Bowl selectedBowl ;
   bool loadCoop = true;
 
   @override
@@ -38,7 +37,7 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
     var formatter = new DateFormat.yMMMMEEEEd('fr');
     formattedDate = formatter.format(_dateTime);
     getCategory();
-    getCoop();
+    getBowl();
     super.initState();
   }
   
@@ -51,10 +50,10 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: ClipRect(child: Image.asset('images/logoFarm.gif',width: 60.0,height: 60.0,)),
-          actions: <Widget>[ IconButton(icon: const Icon(Icons.flutter_dash_outlined),onPressed: () {})],
+          actions: <Widget>[ IconButton(icon: const Icon(Icons.set_meal_outlined),onPressed: () {})],
         )),
       body: Container( child: formular(),
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/poultry.png"),fit: BoxFit.cover,),),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/fish.jpg"),fit: BoxFit.cover,),),
         padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),)
     );
   }
@@ -91,7 +90,7 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
                                                     border:
                                                         OutlineInputBorder(),
                                                     icon: Icon(Icons
-                                                        .flutter_dash_outlined),
+                                                        .set_meal_outlined),
                                                     labelText:
                                                         'Choisir le type')),
                                         suggestionsCallback: (pattern) {
@@ -139,22 +138,22 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
                                                 keyboardType:
                                                     TextInputType.text,
                                                 controller:
-                                                    this.controllerCoop,
+                                                    this.controllerBowl,
                                                 decoration: InputDecoration(
                                                     border:
                                                         OutlineInputBorder(),
                                                     icon: Icon(Icons
                                                         .home_outlined),
                                                     labelText:
-                                                        "Choisir le poulailler ")),
+                                                        "Choisir le Bassin ")),
                                         suggestionsCallback: (pattern) {
-                                          return coops
+                                          return bowls
                                               .where((element) => element
                                                   .name.toLowerCase()
                                                   .startsWith(pattern.toLowerCase()))
                                               .toList();
                                         },
-                                        itemBuilder: (context,Coop suggestion) {
+                                        itemBuilder: (context,Bowl suggestion) {
                                           return ListTile(
                                             title: Row(
                                                 mainAxisAlignment:
@@ -169,13 +168,13 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
                                             suggestionsBox, controller) {
                                           return suggestionsBox;
                                         },
-                                        onSuggestionSelected: (Coop suggestion) {
-                                          this.selectedCoop = suggestion;
-                                          controllerCoop.text = suggestion.name;
+                                        onSuggestionSelected: (Bowl suggestion) {
+                                          this.selectedBowl = suggestion;
+                                          controllerBowl.text = suggestion.name;
                                         },
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return "Le poulailler est obligatoire";
+                                            return "Le Bassin est obligatoire";
                                           } else
                                             return null;
                                         },
@@ -199,27 +198,6 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
                                         validator: (value) {
                                           if (value!.isEmpty) {
                                             return "La quantite est obligatoire ";
-                                          } else
-                                            return null;
-                                        },),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 20.0),
-                                child: TextFormField(
-                                  keyboardType:
-                                                    TextInputType.number,
-                                                controller:
-                                                    this.controllerDevelopment,
-                                                decoration: InputDecoration(
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                    icon: Icon(Icons
-                                                        .time_to_leave_outlined),
-                                                    labelText:
-                                                        "Duree de croissance "),
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return "La duree est obligatoire ";
                                           } else
                                             return null;
                                         },),
@@ -289,7 +267,7 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
   }
 
   Future<void> getCategory() async{
-      var response = await CallApi().getData("/api/v1/poultryCategory");
+      var response = await CallApi().getData("/api/v1/fishCategory");
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       if(body['success']){
         for (var item in body['categorys']) {
@@ -301,12 +279,12 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
       });
   }
 
-  Future<void> getCoop() async{
-    var response = await CallApi().getData("/api/v1/chickenCoop");
+  Future<void> getBowl() async{
+    var response = await CallApi().getData("/api/v1/bowl");
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       if(body['success']){
-        for (var item in body['chickenCoops']) {
-          coops.add(Coop.fromJson(item));
+        for (var item in body['bowls']) {
+          bowls.add(Bowl.fromJson(item));
         }
       }
       setState(() {
@@ -322,22 +300,21 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
       var data =Map<String, dynamic>();
       data['id'] = null;
       data['name'] = null;
-      data['developmentTime'] = int.tryParse(controllerDevelopment.text);
-      data['dateOfEntry'] = formattedDate;
+      data['date'] = formattedDate;
       data['quantity'] = int.tryParse(controllerQuantity.text);
       data['present'] = true;
       data['createdOn'] = createdOn;
       data['updatedOn'] = createdOn;
-      data['chickenCoop'] = selectedCoop.toMap();
+      data['bowl'] = selectedBowl.toMap();
       data['category'] = selectedCategory.toMap();
 
-      var response = await CallApi().postData(data, "/api/v1/poultry");
+      var response = await CallApi().postData(data, "/api/v1/fish");
       var body = jsonDecode(utf8.decode(response.bodyBytes));
     if(body['success']){
       MyWidget().notification(context, "Enregistement reussit");
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GenerateCodePage(body['poultry']['name'],'poultry')));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GenerateCodePage(body['fish']['name'],'fish')));
     }else{
-      MyWidget().notification(context,"Echec de l'enregistement");
+      MyWidget().notification(context, "Echec de l'enregistement");
     }
   }
 }

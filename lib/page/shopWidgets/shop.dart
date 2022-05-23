@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:digital_farm_app/page/home.dart';
+import 'package:digital_farm_app/page/utilWidgets/home.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/utils/shop.dart';
 import 'package:digital_farm_app/widget/external_widget.dart';
@@ -70,13 +70,19 @@ class _ShopPageState extends State<ShopPage> {
 
   Future<void> getShop() async {
     var res = await CallApi().getData("/api/v1/shop");
-    var body = jsonDecode(utf8.decode(res.bodyBytes));
-    if(body['success']){
+    if (res.statusCode == 401) {
+      CallApi().logOut(context);
+    } else if(res.statusCode == 200){
+      var body = jsonDecode(utf8.decode(res.bodyBytes));
+      if(body['success']){
       for(var data in body['shops'])
         shops.add(Shop.fromJson(data));
       setState(() {
         load = false;
       });
+    }
+    } else{
+       MyWidget().notifationAlert(context, "Il y'a une erreur au seveur principal revenez plus tard.", Colors.amber);
     }
   }
 

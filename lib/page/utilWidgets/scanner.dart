@@ -1,12 +1,12 @@
-import 'package:digital_farm_app/page/cattle_detail.dart';
-import 'package:digital_farm_app/page/fish_detail.dart';
-import 'package:digital_farm_app/page/poultry_detail.dart';
+import 'package:digital_farm_app/page/cattleWidgets/cattle_detail.dart';
+import 'package:digital_farm_app/page/fishWidgets/fish_detail.dart';
+import 'package:digital_farm_app/page/poultryWidgets/poultry_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-import 'speculation_detail.dart';
-import 'tree_detail.dart';
+import '../speculationWidgets/speculation_detail.dart';
+import '../treeWidgets/tree_detail.dart';
 
 class QRScanPage extends StatefulWidget {
   final String subject;
