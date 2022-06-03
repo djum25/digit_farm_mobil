@@ -105,7 +105,7 @@ class _StockDeatilPageState extends State<StockDeatilPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(stocks[index]["shop"]["name"],style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                      Text(stocks[index]["shop"]["adress"],style: TextStyle(color: Colors.white, fontSize: 25,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                      Text(stocks[index]["shop"]["adress"].toString(),style: TextStyle(color: Colors.white, fontSize: 25,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
                       Text(stocks[index]["quantity"].toString(),style: TextStyle(color: Color(0xFF7ED957), fontSize: 25,fontWeight: FontWeight.bold),),
                     ],))),);},);}
 
@@ -126,8 +126,8 @@ class _StockDeatilPageState extends State<StockDeatilPage> {
               decoration: InputDecoration(border: OutlineInputBorder(),
               icon: Icon(Icons.hourglass_bottom_outlined),
               labelText: "La quantité")),
-            TextButton(onPressed: (){postStock(product,controller.text,"in",shop.id);}, child: Text("De "+shop.name+" vers l'entrepot",style: TextStyle(fontSize: 20))),
-            TextButton(onPressed: (){postStock(product,controller.text,"out",shop.id);}, child: Text("De l'entrepot vers "+shop.name,style: TextStyle(fontSize: 20)))
+              ElevatedButton(onPressed: (){postStock(product,controller.text,"in",shop.id);}, child: Text("De "+shop.name+" vers l'entrepot",style: TextStyle(fontSize: 20))),
+            ElevatedButton(onPressed: (){postStock(product,controller.text,"out",shop.id);}, child: Text("De l'entrepot vers "+shop.name,style: TextStyle(fontSize: 20)))
           ],
         ),
       ));
