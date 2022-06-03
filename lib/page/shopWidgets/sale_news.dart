@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:digital_farm_app/utils/sale.dart';
 import 'package:digital_farm_app/utils/service.dart';
+import 'package:digital_farm_app/widget/reverse_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -21,10 +22,10 @@ class _SaleNewsPageState extends State<SaleNewsPage> {
   List<Sale> sales = [];
   late DateFormat dateFormat;
   late DateFormat timeFormat;
-  late num priceTotal ;
-  late num accountTotal;
-  late num advanceTotal;
-  late String openAmount;
+  num priceTotal = 0;
+  num accountTotal = 0;
+  num advanceTotal = 0;
+  String openAmount = '0';
 
   @override
   void initState() {
@@ -44,8 +45,12 @@ class _SaleNewsPageState extends State<SaleNewsPage> {
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: ClipRect(child: Image.asset('images/logoFarm.gif',width: 60.0,height: 60.0,)),
-          actions: <Widget>[ IconButton(icon: const Icon(Icons.home_outlined),onPressed: () {
-            print("Button for reverse");
+          actions: <Widget>[ IconButton(icon: const Icon(Icons.money_outlined),onPressed: () {
+            showDialog(
+            context: context,
+            builder: (_) {
+              return ReverseForm((advanceTotal.toInt() + int.parse(openAmount)).toString());
+            },barrierDismissible: false);
           })],
         )),
         body: Container( 
@@ -133,19 +138,30 @@ class _SaleNewsPageState extends State<SaleNewsPage> {
 
   Future<void> getNews() async{
     var res = await CallApi().getData("/api/v1/cashier/sale/news/"+widget.id.toString());
+    if(res.statusCode == 401){
+      CallApi().logOut(context);
+    }else{
     var body = jsonDecode(utf8.decode(res.bodyBytes));
+    print(body['objectArray']);
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       for (var item in body['objectArray']) {
         sales.add(Sale.fromJson(item));
       }
-      setState(() {
-        openAmount = localStorage.getString("cash")!;
-        priceTotal = sales.map((e) => e.price).toList().reduce((value,element)=>value+element);
-        accountTotal = sales.map((e) => e.account).reduce((value,element)=>value+element);
-        advanceTotal = sales.map((e) => e.advance).reduce((value,element)=>value+element);
-        load = false;
-      });
+      if(body['objectArray'].length > 0)
+        setState(() {
+          openAmount = localStorage.getString("cash")!;
+          priceTotal = sales.map((e) => e.price).toList().reduce((value,element)=>value+element);
+          accountTotal = sales.map((e) => e.account).reduce((value,element)=>value+element);
+          advanceTotal = sales.map((e) => e.advance).reduce((value,element)=>value+element);
+          load = false;
+        });
+        else
+          setState(() {
+            openAmount = localStorage.getString("cash")!;
+            load = false;
+          });
+    }
     }
   }
 
