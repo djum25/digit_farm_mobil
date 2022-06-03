@@ -164,7 +164,6 @@ class _SaleWidgetState extends State<SaleWidget> {
  }
 
    Future<void> _onSave(String subject,context) async{
-   Navigator.pop(context);
    SharedPreferences localStorage = await SharedPreferences.getInstance();
    String? username = localStorage.getString("username");
    String? shopId = localStorage.getString("shopId");
@@ -177,10 +176,15 @@ class _SaleWidgetState extends State<SaleWidget> {
       var response = await CallApi().postData(data, "/api/v1/outgoing/sale");
       var body = jsonDecode(utf8.decode(response.bodyBytes));
       if(body['success']){
-        MyWidget().notification(context, body['message']);
-        }
+        //MyWidget().notification(context, body['message']);
+        //Navigator.pop(context);
+        Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(
+          builder: (BuildContext context) => ShopStockPage(int.parse(shopId)),
+      ),ModalRoute.withName("/"));
+      }
       else{
         MyWidget().notification(context, body['message']);
+        Navigator.pop(context);
       }
  }
  }
