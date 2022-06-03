@@ -135,6 +135,9 @@ class _FarmingPageState extends State<FarmingPage> {
   Future<void> getData() async {
 
     var response = await CallApi().getData("/api/v1/speculation/count");
+    if(response.statusCode == 401){
+      CallApi().logOut(context);
+    }else{
     var body = json.decode(response.body);
     if(body['success']){
       setState(() {
@@ -142,6 +145,6 @@ class _FarmingPageState extends State<FarmingPage> {
         missing = body['missing'];
         load = false;
       });
-    }
+    }}
   }
 }
