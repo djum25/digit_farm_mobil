@@ -14,7 +14,7 @@ class Calendary{
   date = json['date'],
   make = json['make'],
   giveUp = json['giveUp'],
-  description = json['description'];
+  description = json['description'].toString();
 
   Map<String, dynamic> toMap(){
     var map = Map<String, dynamic>();
