@@ -113,7 +113,7 @@ Widget itemMerchandise() {
     return GridView.builder(
       itemCount: stocks.length,
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 10, vertical: 20),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 10.0,mainAxisSpacing: 10.0),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 0.0,mainAxisSpacing: 10.0),
       itemBuilder: (BuildContext context,int index){
         return GestureDetector(
           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => StockDeatilPage(stocks[index]["actualy"].toString(),stocks[index]["product"]))),
@@ -124,12 +124,12 @@ Widget itemMerchandise() {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(stocks[index]["product"],style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                      Text(stocks[index]["quantity"].toString(),style: TextStyle(color: Color(0xFF7ED957), fontSize: 25, fontWeight: FontWeight.bold),),
+                      Text(stocks[index]["quantity"].toString(),style: TextStyle(color: Color(0xFF7ED957), fontSize: 20, fontWeight: FontWeight.bold),),
                       Text("En Boutique",style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
-                      Text(stocks[index]["inShop"].toString(),style: TextStyle(color: Color(0xFF7ED957), fontSize: 25, fontWeight: FontWeight.bold),),
+                      Text(stocks[index]["inShop"].toString(),style: TextStyle(color: Color(0xFF7ED957), fontSize: 20, fontWeight: FontWeight.bold),),
                     ],))),);},);}
 
 void formDialog(context,String subject) {
