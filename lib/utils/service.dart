@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 class CallApi{
-    final String api = 'http://192.168.31.80:8080'; //'http://51.178.140.26:8080/digitalFerme'; //'http://192.168.0.153:8080';
+    final String api = 'http://192.168.31.81:8080'; 
+    //'http://51.178.140.26:8080/digitalFerme';
+     //'http://192.168.0.153:8080';
     late String token;
 
     postData(data, way) async {
