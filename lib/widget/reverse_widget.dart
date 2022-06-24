@@ -39,7 +39,7 @@ class _ReverseFormState extends State<ReverseForm> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20.0),
                                 child: TextFormField(
-                                  keyboardType:TextInputType.number,
+                                  keyboardType:TextInputType.phone,
                                   controller:this._controller,
                                   decoration: InputDecoration(border:OutlineInputBorder(),
                                     icon: Icon(Icons.hourglass_bottom_outlined), labelText:"Montant à versé"),
