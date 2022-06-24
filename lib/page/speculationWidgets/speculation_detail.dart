@@ -99,7 +99,7 @@ class _SpeculationDetailPageState extends State<SpeculationDetailPage> {
                   content: calendarys[index].make || calendarys[index].giveUp ? Text("Dommage cette tache est deja effectuee ?",style: TextStyle(fontSize: 30.0,)): Text("Avez vous effectuez cette tache ?",style: TextStyle(fontSize: 30.0,)),
                   actions: [
                     IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close_outlined),iconSize: 60,color: Colors.red),
-                    calendarys[index].make || calendarys[index].giveUp ? IconButton(icon: Icon(Icons.sentiment_very_dissatisfied),onPressed: (){},iconSize: 1) : IconButton(onPressed: (){Navigator.pop(context); giveUpWidget(calendarys[index].id);}, icon: Icon(Icons.thumb_down),iconSize: 60,color: Colors.yellow),
+                    calendarys[index].make || calendarys[index].giveUp ? IconButton(icon: Icon(Icons.sentiment_very_dissatisfied),onPressed: (){},iconSize: 1) : IconButton(onPressed: (){Navigator.pop(context); giveUpWidget(calendarys[index].id);}, icon: Icon(Icons.thumb_down),iconSize: 60,color: Colors.indigo),
                     calendarys[index].make || calendarys[index].giveUp ? IconButton(icon: Icon(Icons.sentiment_very_dissatisfied),onPressed: (){},iconSize: 1) : IconButton(icon: Icon(Icons.thumb_up),onPressed: (){onMake(calendarys[index].id);},iconSize: 60,)
                   ],
                 );
@@ -109,7 +109,7 @@ class _SpeculationDetailPageState extends State<SpeculationDetailPage> {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Container(
                   height: 200,
-                  decoration: BoxDecoration(color: calendarys[index].make ? Color.fromRGBO(128, 255, 0, 0.5): calendarys[index].giveUp ? Color.fromRGBO(220, 250, 0, 0.5):  Color.fromRGBO(255, 0, 0, 0.5),
+                  decoration: BoxDecoration(color: calendarys[index].make ? Color.fromRGBO(128, 255, 0, 1.0): calendarys[index].giveUp ? Colors.indigo:  Color.fromRGBO(255, 0, 0, 1.0),
                    borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                     Row(
