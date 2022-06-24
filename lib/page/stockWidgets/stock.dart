@@ -4,6 +4,7 @@ import 'package:digital_farm_app/page/stockWidgets/stock_detail.dart';
 import 'package:digital_farm_app/page/stockWidgets/stock_product.dart';
 import 'package:digital_farm_app/utils/service.dart';
 import 'package:digital_farm_app/widget/external_widget.dart';
+import 'package:digital_farm_app/widget/new_matiere_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,7 +44,11 @@ var _formKey = GlobalKey<FormState>();
           backgroundColor: Colors.white,
           elevation: 0.0,
           title: ClipRect(child: Image.asset('images/logoFarm.gif',width: 60.0,height: 60.0,)),
-          actions: <Widget>[ IconButton(icon: const Icon(Icons.list_alt_outlined),onPressed: () {/*MyWidget().getShop(context);*/})],
+          actions: <Widget>[ IconButton(icon: const Icon(Icons.list_alt_outlined),onPressed: () {
+            showDialog(context: context, builder: (_){
+              return NewMatiere();
+            },barrierDismissible: false);
+          })],
           bottom:  const TabBar(
             isScrollable: true,
             indicatorColor: Color(0xFF7ED957),
