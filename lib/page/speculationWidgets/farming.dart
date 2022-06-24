@@ -6,7 +6,6 @@ import 'package:digital_farm_app/utils/service.dart';
 import 'package:flutter/material.dart';
 
 import '../utilWidgets/home.dart';
-import '../utilWidgets/scanner.dart';
 
 class FarmingPage extends StatefulWidget {
   const FarmingPage({ Key? key }) : super(key: key);
@@ -70,7 +69,7 @@ class _FarmingPageState extends State<FarmingPage> {
           builder: (context) => SpeculationListPage(true)));}, 
             icon: Icon(Icons.login_outlined,),iconSize:100,),
             SizedBox(height: 10,),
-            Text("Actuellement présent",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
+            Text("Culture en cours",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
             SizedBox(height: 10,),
             Text(present.toString(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),)],
           ),
@@ -84,7 +83,7 @@ class _FarmingPageState extends State<FarmingPage> {
           builder: (context) => SpeculationListPage(false)));}, 
             icon: Icon(Icons.launch_outlined,),iconSize:100,),
             SizedBox(height: 10,),
-            Text("Sont recolté",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
+            Text("Historique des cultures",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
             SizedBox(height: 10,),
             Text(missing.toString(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),)],
           ),
@@ -102,7 +101,7 @@ class _FarmingPageState extends State<FarmingPage> {
         ),
         child: Row(
           children: <Widget> [
-              Expanded(child: 
+        /*       Expanded(child: 
         Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +112,7 @@ class _FarmingPageState extends State<FarmingPage> {
             SizedBox(height: 10,),
             Text("Gestion d'une semence",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),]
           ),
-        ),),
+        ),), */
         Expanded(child: 
         Container(
           child: Column(
@@ -122,7 +121,7 @@ class _FarmingPageState extends State<FarmingPage> {
             IconButton(onPressed: (){Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => SpeculationRegisterPage()));}, icon: Icon(Icons.loupe_outlined,),iconSize:100,),
             SizedBox(height: 10,),
-            Text("Enregistrer une semence",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),]
+            Text("Nouvelle plantation",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),]
           ),
         ),)
           ])
