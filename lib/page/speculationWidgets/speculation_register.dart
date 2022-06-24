@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:digital_farm_app/page/speculationWidgets/farming.dart';
 import 'package:digital_farm_app/utils/planting.dart';
 import 'package:digital_farm_app/utils/seed.dart';
 import 'package:digital_farm_app/utils/service.dart';
@@ -288,7 +289,7 @@ class _SpeculationRegisterPageState extends State<SpeculationRegisterPage> {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
     if(body['success']){
       MyWidget().notification(context,"Enregistement réussit");
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GenerateCodePage(body['speculation']['name'],'speculation')));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => FarmingPage()));
     }else{
       MyWidget().notification(context,"Echec de l'enregistement");
     }

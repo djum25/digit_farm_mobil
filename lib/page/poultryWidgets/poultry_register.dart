@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:digital_farm_app/page/poultryWidgets/poultry.dart';
 import 'package:digital_farm_app/utils/category.dart';
 import 'package:digital_farm_app/utils/coop.dart';
 import 'package:digital_farm_app/utils/service.dart';
@@ -8,8 +9,6 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import '../utilWidgets/gererater.dart';
-import '../utilWidgets/gererater.dart';
 
 class PoultryRegisterPage extends StatefulWidget {
   const PoultryRegisterPage({ Key? key }) : super(key: key);
@@ -336,7 +335,7 @@ class _PoultryRegisterPageState extends State<PoultryRegisterPage> {
       var body = jsonDecode(utf8.decode(response.bodyBytes));
     if(body['success']){
       MyWidget().notification(context, "Enregistement reussit");
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GenerateCodePage(body['poultry']['name'],'poultry')));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>PoultryPage()));
     }else{
       MyWidget().notification(context,"Echec de l'enregistement");
     }
