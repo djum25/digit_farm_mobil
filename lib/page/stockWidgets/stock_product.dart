@@ -132,7 +132,7 @@ class _StockProductState extends State<StockProduct> {
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: Center(
-                            child: TextButton(
+                            child: ElevatedButton(
                           child: Text(
                             formattedDate,
                             style: TextStyle(fontSize: 20.0, color: Colors.black),
