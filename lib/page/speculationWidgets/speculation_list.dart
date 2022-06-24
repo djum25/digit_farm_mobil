@@ -21,6 +21,7 @@ class _SpeculationListPageState extends State<SpeculationListPage> {
   bool present;
   _SpeculationListPageState(this.present);
   List<Speculation> speculations = [];
+  List<Speculation> showSpeculations = [];
   bool load = true;
 
   @override
@@ -39,7 +40,7 @@ class _SpeculationListPageState extends State<SpeculationListPage> {
           title: ClipRect(child: Image.asset('images/logoFarm.gif',width: 60.0,height: 60.0,)),
           actions: <Widget>[ IconButton(icon: const Icon(Icons.set_meal_outlined),onPressed: () {})],
         )),
-      body: Container( child: load? Center(child: Image.asset('images/loading.gif',width: 300.0,height: 300.0,),) : itemList(),
+      body: Container( child: load? Center(child: Image.asset('images/loading.gif',width: 300.0,height: 300.0,),) : layout(),
         decoration: BoxDecoration(image: DecorationImage(image: AssetImage("images/speculation.jpg"),fit: BoxFit.cover,),),)
     );
   }
@@ -51,16 +52,36 @@ class _SpeculationListPageState extends State<SpeculationListPage> {
       for (var item in body['speculations']) {
         speculations.add(Speculation.fromJson(item));
       }
+      showSpeculations = speculations;
       setState(() {
         load = false;
       });
     }
   }
 
+  Widget layout(){
+    return Column(
+      children:[
+      Padding(padding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 10.0),
+      child: TextFormField(
+        decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Vous cherchez quel produit ?"),
+        onChanged: (pattern) => filterItem(pattern),),),
+        Container(child: itemList())
+    ]);
+  }
+
+  filterItem(String pattern){
+    setState(() {
+      showSpeculations = speculations.where((element) => 
+      element.seedName.toLowerCase().startsWith(pattern.toLowerCase())).toList();
+    });
+  }
+
   Widget itemList() {
     return ListView.builder(
+      shrinkWrap: true,
         padding: const EdgeInsets.all(8),
-        itemCount: speculations.length,
+        itemCount: showSpeculations.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onHorizontalDragEnd: (DragEndDetails details){
