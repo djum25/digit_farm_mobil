@@ -98,6 +98,7 @@ bool load = true;
       localStorage.setString("shopId", shop.id.toString());
       localStorage.setString("shopName", shop.name);
       localStorage.setString("cash", cash);
+      localStorage.setString("reimburse", "0");
       Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => ShopStockPage(shop.id.toInt()),
       ),ModalRoute.withName("/"));
      }else{
@@ -106,6 +107,7 @@ bool load = true;
        notifationAlert(context, body['message'],Colors.redAccent);
         localStorage.remove("shopId");
         localStorage.remove("shopName");
+        localStorage.remove("reimburse");
         Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (context) => ShopPage()),
         ModalRoute.withName("/"));
         }
