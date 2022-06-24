@@ -20,6 +20,7 @@ class _ShopPageState extends State<ShopPage> {
   List<Shop> shops = [];
   bool load = true;
   num imOpen = 0;
+  TextEditingController _controller = new TextEditingController();
   @override
   void initState() {
     getShop();
@@ -100,12 +101,92 @@ class _ShopPageState extends State<ShopPage> {
     var shopId = localStorage.getString("shopId");
     var shopName = localStorage.getString("shopName");
     if(shopId == null){
-          MyWidget().formShop(context,shop);
+          getStatus(shop);
     }else if(shopId == shop.id.toString()){
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ShopStockPage(shop.id.toInt())));
     }
     else{
         MyWidget().notifationAlert(context, "Veuillez fermer la boutique "+shopName!, Colors.amber);
     }
+  }
+
+  Future<void> getStatus(Shop shop) async{
+    showDialog(barrierDismissible: false, context: context, builder: (_){
+      return AlertDialog(
+        actionsAlignment: MainAxisAlignment.spaceBetween,
+        title: Text("Votre code SVP!",style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold),),
+        content: TextField(
+          controller: _controller,
+          keyboardType: TextInputType.phone,
+          decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Chaisir code"),
+        ),
+        actions: [
+          ElevatedButton(onPressed: () async {
+            var data = {
+              "shopId": shop.id,
+              "access": _controller.text
+            };
+            var res = await CallApi().postData(data,"/api/v1/shopStatus") ;
+            var body = jsonDecode(utf8.decode(res.bodyBytes));
+            if(body['success'])
+             confirm(body['message'], shop,body['object']['status'],body['object']['cash']);
+             else
+              MyWidget().notifationAlert(context, body['message'], Colors.red);
+          }, 
+          child: Text("Soumettre",style: TextStyle(color: Colors.white),)),
+          ElevatedButton(onPressed: (){Navigator.of(context).pop();},
+           style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
+           child: Text("Abandonner",style: TextStyle(color: Colors.white),)),
+        ],
+      );
+    });
+
+  }
+
+  Future<void> confirm(String message,Shop shop,bool status,int cash) async{
+    Navigator.of(context).pop();
+    showDialog(barrierDismissible: false, context: context, builder: (_){
+      return AlertDialog(
+        actionsAlignment: MainAxisAlignment.spaceBetween,
+        content: Text(message,style: TextStyle(fontSize: 20.0,),),
+        actions: [
+          ElevatedButton(onPressed: () async {
+            var data = {"shopId": shop.id,"cash":cash};
+            if(status){
+                Navigator.of(context).pop();
+                var res = await CallApi().postData(data,"/api/v1/shopStatus/close");
+                var body = jsonDecode(utf8.decode(res.bodyBytes));
+                if(body['success']){
+                    SharedPreferences localStorage = await SharedPreferences.getInstance();
+                    localStorage.remove("shopId");
+                    localStorage.remove("shopName");
+                    localStorage.remove("reimburse");
+                    Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (context) => ShopPage()),
+                    ModalRoute.withName("/"));
+                }
+                else MyWidget().notifationAlert(context, body['message'], Colors.red);
+            }else{
+              var res = await CallApi().postData(data,"/api/v1/shopStatus/open");
+              var body = jsonDecode(utf8.decode(res.bodyBytes));
+              if(body['success']){
+                SharedPreferences localStorage = await SharedPreferences.getInstance();
+                localStorage.setString("shopId", shop.id.toString());
+                localStorage.setString("shopName", shop.name);
+                localStorage.setString("cash", cash.toString());
+                localStorage.setString("reimburse", "0");
+                Navigator.pushAndRemoveUntil<void>(context,MaterialPageRoute<void>(builder: (BuildContext context) => ShopStockPage(shop.id.toInt()),
+                ),ModalRoute.withName("/"));
+              }
+              else
+                MyWidget().notifationAlert(context, body['message'], Colors.red);
+            }
+          },
+           child: Text("Oui",style: TextStyle(color: Colors.white),)),
+          ElevatedButton(onPressed: (){Navigator.of(context).pop();},
+           style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
+           child: Text("Annuler",style: TextStyle(color: Colors.white),))
+        ],
+      );
+    });
   }
 }
