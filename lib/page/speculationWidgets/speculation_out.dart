@@ -94,7 +94,7 @@ class _SpeculationOutPageState extends State<SpeculationOutPage> {
                                             return null;
                                         },),
                               ),
-                              Padding(
+                              /* Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20.0),
                                 child: TextFormField(
                                   keyboardType:
@@ -114,7 +114,7 @@ class _SpeculationOutPageState extends State<SpeculationOutPage> {
                                           } else
                                             return null;
                                         },),
-                              ),
+                              ), */
                         Padding(padding: const EdgeInsets.symmetric(vertical:20.0),
                         child: Center(child:TextButton( child: Text(formattedDate,style: TextStyle(fontSize: 20.0,color: Colors.black),),
                         
@@ -187,7 +187,7 @@ class _SpeculationOutPageState extends State<SpeculationOutPage> {
       var data = {
         'id':null,
         'quantity':_controllerQty.text,
-        'valeur':_controllerVal.text,
+        //'valeur':_controllerVal.text,
         'createdOn':createdOn,
         'updatedOn':createdOn,
         'date':formattedDate,
